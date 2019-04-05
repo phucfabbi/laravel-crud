@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Requests\StoreUser;
 
 use App\User;
 use Illuminate\Http\Request;
@@ -32,15 +33,15 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoreUser  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUser $request)
     {
-        $request->validate([
-            'name'=>'required|max:255',
-            'email'=> 'required|email',
-        ]);
+        // $request->validate([
+        //     'name'=>'required|max:255',
+        //     'email'=> 'required|email',
+        // ]);
 
         $user = new User;
         $user->name = $request->get('name');
@@ -48,7 +49,7 @@ class UserController extends Controller
         $user->password = $request->get('password');
         $user->save();
 
-        return redirect('/users')->with('success', 'User has been created');
+        return redirect()->route('users.index')->with('success', 'User has been created');
     }
 
     /**
